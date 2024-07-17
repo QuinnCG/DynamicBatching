@@ -1,6 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Mathematics;
+using OpenTK.Platform.Windows;
 
 namespace DynamicBatching;
 
@@ -115,10 +116,25 @@ unsafe class Application
 
 				xCount += 2;
 				yCount += 2;
+
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.WriteLine($"Quad Count: {xCount * yCount:n0}");
+				Console.ResetColor();
 			}
 			else if (GLFW.GetKey(window, Keys.Space) == InputAction.Release && !_canGrow)
 			{
 				_canGrow = true;
+			}
+
+			if (GLFW.GetKey(window, Keys.R) == InputAction.Press)
+			{
+				xCount = 0;
+				yCount = 0;
+			}
+
+			if (GLFW.GetKey(window, Keys.Escape) == InputAction.Press)
+			{
+				GLFW.SetWindowShouldClose(window, true);
 			}
 		}
 
@@ -171,7 +187,7 @@ unsafe class Application
 		var batch = new Batch();
 		batch.OnBufferCapacityChange += (vSize, iSize) =>
 		{
-			Console.WriteLine($"Vertex Size: {vSize / 1024f:0.00}KB, Index Size: {iSize / 1024f:0.00}KB");
+			Console.WriteLine($"Vertex Size: {vSize / 1024:n0}KB, Index Size: {iSize / 1024:n0}KB");
 		};
 
 		var builder = MeshBuilder.Create();
@@ -221,10 +237,28 @@ unsafe class Application
 
 				builder.Build(out var vertices, out var indices);
 				batch.Update(vertices, indices);
+
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.WriteLine($"Quad Count: {xCount * yCount:n0}");
+				Console.ResetColor();
 			}
 			else if (GLFW.GetKey(window, Keys.Space) == InputAction.Release && !_canGrow)
 			{
 				_canGrow = true;
+			}
+
+			if (GLFW.GetKey(window, Keys.R) == InputAction.Press)
+			{
+				builder.Clear();
+				xCount = 0;
+				yCount = 0;
+
+				batch.Update([], []);
+			}
+
+			if (GLFW.GetKey(window, Keys.Escape) == InputAction.Press)
+			{
+				GLFW.SetWindowShouldClose(window, true);
 			}
 		}
 

@@ -62,4 +62,11 @@ class MeshBuilder
 		vertices = [.. _vertices];
 		indices = [.. _indices];
 	}
+
+	public void Clear()
+	{
+		_vertices.Clear();
+		_indices.Clear();
+		_highestIndex = 0;
+	}
 }

@@ -18,6 +18,7 @@ class Batch : IDisposable
 	public Batch()
 	{
 		Handle = GL.GenVertexArray();
+		GenerateBuffers(2, 2);
 	}
 
 	public void Bind()
@@ -88,7 +89,7 @@ class Batch : IDisposable
 			}
 			 
 			size = Math.Max(size, 2);
-			size *= 2;
+			size *= 4;
 		}
 		else
 		{
